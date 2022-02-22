@@ -1,58 +1,47 @@
 import './sass/main.scss';
-import axios from 'axios';
-
-const API_KEY = '25809768-5f151ed3e9c60947c53759114';
-const BASE_URL = 'https://pixabay.com/api';
+import getImages from './js/fetchImages';
+import card from './templates/card.hbs'
+import Notiflix from 'notiflix';
 
 const refs = {
-    searchForm: document.querySelector('.js-search-form'),
+    searchForm: document.querySelector('.search-form'),
     articlesContainer: document.querySelector('.gallery'),
 }
 
-const options = {
-  headers: {
-    key: API_KEY,
-    word: '',
-  },
-};
+// const options = {
+//   headers: {
+//     key: API_KEY,
+//     word: '',
+//     page: 1,
+//     BASE_URL: BASE_URL,
+//   },
+// };
 
-const url = ``;
+refs.searchForm.addEventListener('submit', onSearch);
 
-fetch(url, options).then(response => response.json()).then(console.log);
+let requestWord = '';
 
+function onSearch(e) {
+  e.preventDefault();
+  requestWord = e.target.elements.searchQuery.value.trim();
 
-export default class NewsApiService {
-  constructor() {
-    this.word = '';
-    this.page = 1;
-    this.API_KEY = API_KEY;
-    this.BASE_URL = BASE_URL;
-  }
+  try {
+    if (requestWord !== '') {
+      getImages(requestWord).then(word => renderImageCards(word));
+    }
+    else {
+      Notiflix.Notify.info(`Enter any word`)
+    }
+  } catch (error) {
+    onFetchError();
+   }
+}
 
-  fetchArticles() {
-    const url = `${this.BASE_URL}/?key=${this.API_KEY}&q=${this.word}&image_type='photo'&page=${this.page}&per_page=40&orientation='horizontal'&safesearch='true'`;
+function renderImageCards (word) {
+    refs.articlesContainer.innerHTML = card(word);
+}
 
-    return fetch(url, options)
-      .then(response => response.json())
-      .then(({ articles }) => {
-        this.incrementPage();
-        return articles;
-      });
-  }
-
-  incrementPage() {
-    this.page += 1;
-  }
-
-  resetPage() {
-    this.page = 1;
-  }
-
-  get query() {
-    return this.searchQuery;
-  }
-
-  set query(newQuery) {
-    this.searchQuery = newQuery;
-  }
+function onFetchError(error) {
+    // console.log(error);
+    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
 }
