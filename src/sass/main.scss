@@ -10,10 +10,31 @@
   box-sizing: border-box;
 }
 
-----------------Form--------------- .search-form {
+// ----------------Form---------------
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+
+  margin-bottom: 10px;
+  margin-top: 10px;
+  height: 40px;
+
+  &__input {
+    width: 250px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  &__btn {
+    border-radius: 5px;
+  }
 }
 
-------------------Gallary--------------- img {
+// ------------------Gallary---------------
+
+img {
   display: block;
 
   width: 350px;

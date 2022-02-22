@@ -28,6 +28,7 @@ function onSearch(e) {
   try {
     if (requestWord !== '') {
       getImages(requestWord).then(word => renderImageCards(word));
+      Notiflix.Notify.success(`Hooray! We found totalHits images.`);
     }
     else {
       Notiflix.Notify.info(`Enter any word`)
