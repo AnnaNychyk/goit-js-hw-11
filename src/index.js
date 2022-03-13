@@ -20,30 +20,30 @@ const refs = {
 
 refs.searchForm.addEventListener('submit', onSearch);
 
+const newGetImages = new getImages();
+
 let requestWord = '';
 
 function onSearch(e) {
   e.preventDefault();
   requestWord = e.target.elements.searchQuery.value.trim();
-
-  try {
     if (requestWord !== '') {
-      getImages(requestWord).then(word => renderImageCards(word));
+      newGetImages(requestWord).then(word => renderImageCards(word));
       Notiflix.Notify.success(`Hooray! We found totalHits images.`);
     }
+    // else if (response.data.hits === []) {
+    //   onFetchError();
+    // }
     else {
       Notiflix.Notify.info(`Enter any word`)
     }
-  } catch (error) {
-    onFetchError();
-   }
 }
 
 function renderImageCards (word) {
-    refs.articlesContainer.innerHTML = card(word);
+  refs.articlesContainer.innerHTML = card(word);
 }
 
 function onFetchError(error) {
-    // console.log(error);
-    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
+  // console.log(error);
+  Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
 }
