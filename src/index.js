@@ -20,15 +20,15 @@ const refs = {
 
 refs.searchForm.addEventListener('submit', onSearch);
 
-const newGetImages = new getImages();
+// const newGetImages = new getImages();
 
 let requestWord = '';
 
 function onSearch(e) {
   e.preventDefault();
-  requestWord = e.target.elements.searchQuery.value.trim();
+  requestWord = e.target.elements.searchQuery.value;
     if (requestWord !== '') {
-      newGetImages(requestWord).then(word => renderImageCards(word));
+      getImages(requestWord).then(word => renderImageCards(word));
       Notiflix.Notify.success(`Hooray! We found totalHits images.`);
     }
     // else if (response.data.hits === []) {
