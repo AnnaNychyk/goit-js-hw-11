@@ -77,4 +77,4 @@ var t,e=arguments[3];!function(e,i){"function"==typeof t&&t.amd?t([],function(){
 },{}],"Focm":[function(require,module,exports) {
 "use strict";require("./sass/main.scss");var e=a(require("./js/fetchImages")),r=a(require("./templates/card.hbs")),t=a(require("notiflix"));function a(e){return e&&e.__esModule?e:{default:e}}const o={searchForm:document.querySelector(".search-form"),articlesContainer:document.querySelector(".gallery"),loadMore:document.querySelector(".load-more")};o.searchForm.addEventListener("submit",u);let n="";function u(r){r.preventDefault(),""!==(n=r.target.elements.searchQuery.value)?((0,e.default)(n).then(e=>s(e)),t.default.Notify.success("Hooray! We found totalHits images.")):t.default.Notify.info("Enter any word")}function s(e){o.articlesContainer.innerHTML=(0,r.default)(e)}function i(e){t.default.Notify.failure("Sorry, there are no images matching your search query. Please try again")}
 },{"./sass/main.scss":"clu1","./js/fetchImages":"FV1x","./templates/card.hbs":"BqeE","notiflix":"W3Ap"}]},{},["Focm"], null)
-//# sourceMappingURL=/goit-js-hw-11/src.ad26d369.js.map
+//# sourceMappingURL=/goit-js-hw-11/src.a17b6a32.js.map
