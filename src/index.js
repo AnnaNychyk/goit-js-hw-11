@@ -1,7 +1,8 @@
 import './sass/main.scss';
-import getImages from './js/fetchImages';
+import GetImages from './js/fetchImages';
 import card from './templates/card.hbs'
 import Notiflix from 'notiflix';
+import NewsApiService from './js/fetchImages'
 
 const refs = {
     searchForm: document.querySelector('.search-form'),
@@ -19,16 +20,31 @@ const refs = {
 // };
 
 refs.searchForm.addEventListener('submit', onSearch);
+refs.loadMore.addEventListener('click', onLoadMore);
 
-// const newGetImages = new getImages();
 
-let requestWord = '';
+const newsApiService = new NewsApiService();
+
+// let requestWord = '';
 
 function onSearch(e) {
   e.preventDefault();
-  requestWord = e.target.elements.searchQuery.value;
-    if (requestWord !== '') {
-      getImages(requestWord).then(word => renderImageCards(word));
+  newsApiService.searchWord = e.target.elements.searchQuery.value;
+    if (newsApiService.searchWord !== '') {
+      newsApiService.getImages().then(word => renderImageCards(word));
+      Notiflix.Notify.success(`Hooray! We found totalHits images.`);
+    }
+    // else if (response.data.hits === []) {
+    //   onFetchError();
+    // }
+    else {
+      Notiflix.Notify.info(`Enter any word`)
+    }
+}
+
+function onLoadMore () {
+  if (newsApiService.searchWord !== '') {
+      newsApiService.getImages().then(word => renderImageCards(word));
       Notiflix.Notify.success(`Hooray! We found totalHits images.`);
     }
     // else if (response.data.hits === []) {
