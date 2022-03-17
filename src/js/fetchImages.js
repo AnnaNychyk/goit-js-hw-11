@@ -25,7 +25,7 @@ export default class NewsApiService {
         try {
             const response = await axios.get(`${this.BASE_URL}/?key=${this.API_KEY}&q=${this.requestWord}&image_type='photo'&page=${this.page}&per_page=40&orientation='horizontal'&safesearch='true'`);
             //   console.log(response);
-            const result = await response.data.hits;
+            const result = await response.data;
             this.incrementPage();
             return result;
         } catch (error) {
@@ -43,6 +43,10 @@ export default class NewsApiService {
 
     incrementPage() {
         this.page += 1;
+    }
+
+    resetPage() {
+        this.page = 1;
     }
 }
 

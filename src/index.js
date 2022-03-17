@@ -29,34 +29,33 @@ const newsApiService = new NewsApiService();
 
 function onSearch(e) {
   e.preventDefault();
-  newsApiService.searchWord = e.target.elements.searchQuery.value;
-    if (newsApiService.searchWord !== '') {
-      newsApiService.getImages().then(word => renderImageCards(word));
-      Notiflix.Notify.success(`Hooray! We found totalHits images.`);
+
+  clearImageCards();
+  newsApiService.searchWord = e.target.elements.searchQuery.value.trim();
+  newsApiService.resetPage();
+  newsApiService.getImages().then(({ hits, totalHits }) => {
+    if (newsApiService.searchWord === '') {
+      Notiflix.Notify.info(`Enter any word`) 
+    } else if (hits.length === 0) {
+      onFetchError();
+    } else {
+      renderImageCards(hits);
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
-    // else if (response.data.hits === []) {
-    //   onFetchError();
-    // }
-    else {
-      Notiflix.Notify.info(`Enter any word`)
-    }
+  });
 }
 
-function onLoadMore () {
-  if (newsApiService.searchWord !== '') {
-      newsApiService.getImages().then(word => renderImageCards(word));
-      Notiflix.Notify.success(`Hooray! We found totalHits images.`);
-    }
-    // else if (response.data.hits === []) {
-    //   onFetchError();
-    // }
-    else {
-      Notiflix.Notify.info(`Enter any word`)
-    }
+function onLoadMore() {
+  newsApiService.getImages().then(({ hits, totalHits }) => renderImageCards(hits));
+  
 }
 
-function renderImageCards (word) {
-  refs.articlesContainer.innerHTML = card(word);
+function renderImageCards(word) {
+  refs.articlesContainer.insertAdjacentHTML('beforeend', card(word));
+}
+
+function clearImageCards() {
+  refs.articlesContainer.innerHTML = '';
 }
 
 function onFetchError(error) {
