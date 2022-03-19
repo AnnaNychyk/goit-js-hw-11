@@ -10,13 +10,14 @@ const refs = {
     // loadMore: document.querySelector('.load-more'),
 }
 
-refs.searchForm.addEventListener('submit', onSearch);
-refs.loadMore.addEventListener('click', onLoadMore);
-
-const loadMoreBtn = new LoadMoreBtn('.load-more');
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '.load-more',
+  hidden: true,
+});
 const newsApiService = new NewsApiService();
 
-// let requestWord = '';
+refs.searchForm.addEventListener('submit', onSearch);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 function onSearch(e) {
   e.preventDefault();
@@ -30,14 +31,20 @@ function onSearch(e) {
     } else if (hits.length === 0) {
       onFetchError();
     } else {
+      loadMoreBtn.show();
       renderImageCards(hits);
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+      checkTotalHits();
     }
   });
+  
 }
 
 function onLoadMore() {
-  newsApiService.getImages().then(({ hits, totalHits }) => renderImageCards(hits));
+  newsApiService.getImages().then(({ hits, totalHits }) => {
+    renderImageCards(hits);
+    checkTotalHits();
+  });
 }
 
 function renderImageCards(word) {
@@ -45,10 +52,20 @@ function renderImageCards(word) {
 }
 
 function clearImageCards() {
+  loadMoreBtn.hide();
   refs.articlesContainer.innerHTML = '';
 }
 
 function onFetchError(error) {
   // console.log(error);
   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
+}
+
+function checkTotalHits(totalHits) {
+  const total = document.querySelectorAll('.photo-card').length;
+  console.log(total);
+  if (total >= totalHits) {
+    Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+    loadMoreBtn.hide();
+  }
 }

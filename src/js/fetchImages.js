@@ -13,7 +13,7 @@ export default class NewsApiService {
     
     async getImages(requestWord) {
         try {
-            const response = await axios.get(`${this.BASE_URL}/?key=${this.API_KEY}&q=${this.requestWord}&image_type='photo'&page=${this.page}&per_page=40&orientation='horizontal'&safesearch='true'`);
+            const response = await axios.get(`${this.BASE_URL}/?key=${this.API_KEY}&q=${this.requestWord}&image_type='photo'&page=${this.page}&per_page=100&orientation='horizontal'&safesearch='true'`);
             //   console.log(response);
             const result = await response.data;
             this.incrementPage();
