@@ -30,7 +30,7 @@ function onSearch(e) {
       Notiflix.Notify.info(`Enter any word`) 
     } else if (hits.length === 0) {
       onFetchError();
-    } else {
+    }  else {
       loadMoreBtn.show();
       renderImageCards(hits);
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
@@ -62,9 +62,14 @@ function onFetchError(error) {
 }
 
 function checkTotalHits(totalHits) {
-  const total = document.querySelectorAll('.photo-card').length;
-  console.log(total);
-  if (total >= totalHits) {
+  // const total = document.querySelectorAll('.photo-card').length;
+  // console.log(total);
+  // if (total >= totalHits) {
+  //   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+  //   loadMoreBtn.hide();
+  // }
+
+  if (page > (totalHits / per_page)) {
     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
     loadMoreBtn.hide();
   }
