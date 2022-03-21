@@ -1,15 +1,14 @@
 import './sass/main.scss';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import card from './templates/card.hbs'
 import Notiflix from 'notiflix';
 import NewsApiService from './js/fetchImages';
 import LoadMoreBtn from './js/loadMoreBtn';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
-    searchForm: document.querySelector('.search-form'),
-    articlesContainer: document.querySelector('.gallery'),
-    // loadMore: document.querySelector('.load-more'),
+  searchForm: document.querySelector('.search-form'),
+  articlesContainer: document.querySelector('.gallery'),
 }
 
 const loadMoreBtn = new LoadMoreBtn({
@@ -17,7 +16,7 @@ const loadMoreBtn = new LoadMoreBtn({
   hidden: true,
 });
 
-const lightbox = new SimpleLightbox('.gallery a', {
+let lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   captionsData: 'alt',
 });
@@ -43,20 +42,17 @@ function onSearch(e) {
       renderImageCards(hits);
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       checkTotalHits();
+      // lightbox.refresh();
     }
-
-    lightbox.refresh();
   });
-  
 }
 
 function onLoadMore() {
   newsApiService.getImages().then(({ hits, totalHits }) => {
     renderImageCards(hits);
     checkTotalHits();
+    lightbox.refresh();
   });
-
-  lightbox.refresh();
 }
 
 function renderImageCards(word) {
@@ -81,9 +77,8 @@ function checkTotalHits(totalHits) {
   //   loadMoreBtn.hide();
   // }
 
-  if (page > (totalHits / per_page)) {
+  if (page >= (totalHits / per_page)) {
     Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
     loadMoreBtn.hide();
   }
 }
-
