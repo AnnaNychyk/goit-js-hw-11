@@ -1,4 +1,6 @@
 import './sass/main.scss';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import card from './templates/card.hbs'
 import Notiflix from 'notiflix';
 import NewsApiService from './js/fetchImages';
@@ -14,6 +16,12 @@ const loadMoreBtn = new LoadMoreBtn({
   selector: '.load-more',
   hidden: true,
 });
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
+
 const newsApiService = new NewsApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
@@ -36,6 +44,8 @@ function onSearch(e) {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       checkTotalHits();
     }
+
+    lightbox.refresh();
   });
   
 }
@@ -45,6 +55,8 @@ function onLoadMore() {
     renderImageCards(hits);
     checkTotalHits();
   });
+
+  lightbox.refresh();
 }
 
 function renderImageCards(word) {
@@ -74,3 +86,4 @@ function checkTotalHits(totalHits) {
     loadMoreBtn.hide();
   }
 }
+
