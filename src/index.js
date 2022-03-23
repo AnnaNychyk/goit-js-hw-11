@@ -41,7 +41,6 @@ function onSearch(e) {
       loadMoreBtn.show();
       renderImageCards(hits);
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-      checkTotalHits();
     }
   });
 }
@@ -54,6 +53,7 @@ function onLoadMore() {
 
 function renderImageCards(word) {
   refs.articlesContainer.insertAdjacentHTML('beforeend', card(word));
+  checkTotalHits();
 }
 
 function clearImageCards() {
@@ -74,11 +74,4 @@ function checkTotalHits() {
       loadMoreBtn.hide();
     }
   });
-
-  
-  
-  // if (newsApiService.page >= (newsApiService.totalHits / newsApiService.per_page)) {
-  //   Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-  //   loadMoreBtn.hide();
-  // }
 }
