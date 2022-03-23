@@ -41,6 +41,7 @@ function onSearch(e) {
       loadMoreBtn.show();
       renderImageCards(hits);
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+      lightbox.refresh();
     }
   });
 }
