@@ -49,6 +49,7 @@ function onSearch(e) {
 function onLoadMore() {
   newsApiService.getImages().then(({ hits, totalHits }) => {
     renderImageCards(hits);
+    lightbox.refresh();
   });
 }
 
