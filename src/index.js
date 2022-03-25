@@ -50,13 +50,16 @@ function onLoadMore() {
   newsApiService.getImages().then(({ hits, totalHits }) => {
     renderImageCards(hits);
     lightbox.refresh();
+    if (document.querySelectorAll('.photo-card').length >= totalHits) {
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+      loadMoreBtn.hide();
+    }
   });
 }
 
 function renderImageCards(word) {
   refs.articlesContainer.insertAdjacentHTML('beforeend', card(word));
-  checkTotalHits();
-}
+} 
 
 function clearImageCards() {
   loadMoreBtn.hide();
@@ -70,8 +73,8 @@ function onFetchError(error) {
 
 function checkTotalHits() {
   newsApiService.getImages().then(({ hits, totalHits }) => {
-    const total = document.querySelectorAll('.photo-card').length;
-    if (total >= totalHits) {
+    // const total = document.querySelectorAll('.photo-card').length;
+    if (document.querySelectorAll('.photo-card').length >= totalHits) {
       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
       loadMoreBtn.hide();
     }
