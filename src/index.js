@@ -71,12 +71,12 @@ function onFetchError(error) {
   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again');
 }
 
-function checkTotalHits() {
-  newsApiService.getImages().then(({ hits, totalHits }) => {
-    // const total = document.querySelectorAll('.photo-card').length;
-    if (document.querySelectorAll('.photo-card').length >= totalHits) {
-      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-      loadMoreBtn.hide();
-    }
-  });
-}
+// function checkTotalHits() {
+//   newsApiService.getImages().then(({ hits, totalHits }) => {
+//     // const total = document.querySelectorAll('.photo-card').length;
+//     if (document.querySelectorAll('.photo-card').length >= totalHits) {
+//       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+//       loadMoreBtn.hide();
+//     }
+//   });
+// }

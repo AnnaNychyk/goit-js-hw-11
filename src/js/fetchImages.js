@@ -9,7 +9,7 @@ export default class NewsApiService {
         this.API_KEY = API_KEY;
         this.BASE_URL = BASE_URL;
         this.page = 1;
-        this.per_page = 200;
+        this.per_page = 40;
     }
     
     async getImages(requestWord) {
